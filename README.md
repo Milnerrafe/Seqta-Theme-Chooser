@@ -1,3 +1,4 @@
+![Marquee-promo-tile](https://github.com/Milnerrafe/Seqta-Theme-Chooser/blob/main/Marquee-promo-tile.png?raw=true)
 # Seqta-Theme-Chooser
 Choose the Theme you want your Seqta UI to be
 
