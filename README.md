@@ -3,7 +3,7 @@
 Choose the Theme you want your Seqta UI to be
 
 
-Seqta Theme Chooser allows you to change the colour of your sector UI, allowing you to customise your Seqta from pink to gold, from orange to blue, any colour of your imagination available at your fingertips instantly. 
+Seqta Theme Chooser allows you to change the colour of your seqta UI, allowing you to customise your Seqta from pink to gold, from orange to blue, any colour of your imagination available at your fingertips instantly. 
 
 Once you set a colour, it will remain set as long as you have the extensions installed. You can always change the colour at any time and go back to colours you've used previously from the history section of the extension. 
 
