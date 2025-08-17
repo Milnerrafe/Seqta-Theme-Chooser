@@ -1,0 +1,19 @@
+.userInfoImg {
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 4;
+  box-shadow: 0 0 0 3px #000000;
+}
+
+.dark .userInfoImg {
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+.userInfosvgdiv {
+  filter: invert(0) !important;
+}

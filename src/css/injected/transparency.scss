@@ -1,0 +1,71 @@
+html.transparencyEffects.dark {
+  --background-primary: rgba(35, 35, 35, 0.6);
+  --background-secondary: rgba(26, 26, 26, 0.6);
+}
+
+html.transparencyEffects:not(.dark) {
+  --background-primary: rgba(255, 255, 255, 0.6);
+  --background-secondary: rgba(229, 231, 235, 0.6);
+}
+
+html.transparencyEffects {
+  /* Background Fixes */
+  [class*="notifications__item___"],
+  #shortcuts {
+    backdrop-filter: unset !important;
+  }
+
+  .whatsnewTextContainer h1 {
+    background-color: transparent !important;
+    position: inherit;
+  }
+
+  /* Blurs */
+  .search,
+  .document,
+  .border,
+  .draggable,
+  .notice,
+  [class*="BasicPanel__BasicPanel___"],
+  .message.addMessage,
+  .singleSelect,
+  .uiFileHandlerPanel,
+  [class*="Module__wrapper___"],
+  [class*="notifications__list___"],
+  .thread,
+  .calendar,
+  .navigator,
+  #title,
+  [class*="LabelList__selected___"],
+  .buttonChecklist,
+  .pane,
+  .legacy-root button,
+  .legacy-root a,
+  [class*="MessageList__MessageList___"] {
+    backdrop-filter: blur(80px);
+  }
+
+  .filter-select,
+  .uiShortText.search,
+  .report {
+    backdrop-filter: blur(10px) !important;
+  }
+
+  #menu,
+  .kanban-column,
+  .whatsnewContainer,
+  [class*="Message__Message___"] {
+    backdrop-filter: blur(50px);
+  }
+
+  .title > a {
+    backdrop-filter: blur(0px) !important;
+  }
+
+  #main > .dashboard {
+    section,
+    .dashlet {
+      backdrop-filter: blur(8px);
+    }
+  }
+}
