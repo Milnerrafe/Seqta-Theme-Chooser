@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Seqta Theme Chooser",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Choose the Theme you want your Seqta UI to be",
   "action": {
     "default_popup": "popup.html",

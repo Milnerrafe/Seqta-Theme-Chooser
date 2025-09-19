@@ -1,6 +1,27 @@
 const picker = document.getElementById("picker");
 const chips = document.getElementById("chips");
 
+function hexToRgb(hex) {
+  // Remove leading #
+  hex = hex.replace(/^#/, "");
+
+  // Parse shorthand (#abc → #aabbcc)
+  if (hex.length === 3) {
+    hex = hex
+      .split("")
+      .map((c) => c + c)
+      .join("");
+  }
+
+  // Extract and convert
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `${r},${g},${b}`;
+}
+
 function normalizeHex(hex) {
   if (!hex) return "";
   hex = hex.trim();
@@ -145,10 +166,31 @@ async function apply(hex) {
     };
 
     setProp("--navy", hex);
+    setProp("--theme-sel-bg-parts", hexToRgb(hex));
+    setProp("--", hex);
     setProp("--nav-level-zero", hex);
     setProp("--nav-level-one", derivedColors[0]);
     setProp("--nav-level-two", derivedColors[1]);
     setProp("--nav-level-three", derivedColors[2]);
+    const style = document.createElement("style");
+    style.textContent = `
+      .Avatar__Avatar___j4ZSp {
+        width: 44px;
+        height: 44px;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+        border-radius: 100%;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        background-color: var(--navy);
+        border: 2px solid var(--navy);
+      }
+    `;
+
+    document.head.appendChild(style);
   };
 
   try {
