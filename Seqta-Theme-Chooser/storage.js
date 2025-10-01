@@ -33,10 +33,11 @@ async function getRecentColors() {
 }
 async function pushRecentColor(hex) {
   const recents = await getRecentColors();
+
   const next = [
     hex,
     ...recents.filter((c) => c.toLowerCase() !== hex.toLowerCase()),
-  ].slice(0, 8);
+  ].slice(0, 7);
   return new Promise((resolve) =>
     chrome.storage.sync.set({ [RECENTS_KEY]: next }, resolve),
   );

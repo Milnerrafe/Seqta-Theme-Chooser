@@ -33,9 +33,12 @@ body {
 .recents {
     display: grid;
     gap: 6px;
+    padding: 5px;
+    border: 1px solid #262626;
+    border-radius: 5px;
 }
 .muted {
-    color: #666;
+    color: #262626;
     font-size: 12px;
 }
 .chips {
@@ -44,10 +47,10 @@ body {
     gap: 6px;
 }
 .chips button {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+    width: 25px;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid #262626;
     padding: 0;
     cursor: pointer;
 }
