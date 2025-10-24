@@ -1,56 +1,180 @@
-html,
-body {
+* {
     margin: 0;
     padding: 0;
-    width: 260px;
-    font:
-        13px/1.35 system-ui,
-        -apple-system,
-        Segoe UI,
-        Roboto,
-        Helvetica,
-        Arial;
-    color: #222;
-}
-.wrap {
-    padding: 12px;
-}
-.row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-#picker {
-    width: 44px;
-    height: 28px;
-    padding: 0;
-    border: 0;
-    background: transparent;
 }
 
-.recents {
-    display: grid;
-    gap: 6px;
-    padding: 5px;
-    border: 1px solid #262626;
-    border-radius: 5px;
+button {
+    all: unset; /* Removes all default browser styles */
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit; /* Inherit font styles from parent */
+    color: inherit; /* Inherit text color */
+    line-height: normal;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
-.muted {
-    color: #262626;
-    font-size: 12px;
+
+body {
+    position: relative;
+    width: 265px;
+    height: 150px;
 }
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+
+h1 {
+    position: absolute;
+    width: 127px;
+    height: 19px;
+    left: 13px;
+    top: 74px;
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #ffffff;
 }
-.chips button {
-    width: 25px;
-    height: 20px;
-    border-radius: 2px;
-    border: 1px solid #262626;
+
+.Input-Chip {
+    position: absolute;
+    width: 72px;
+    height: 19px;
+    left: 181px;
+    top: 74px;
+
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px 25px 25px 50px;
+}
+
+.EyeDropper {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 182px;
+    top: 75px;
+
+    border-radius: 100px;
+    text-align: center;
+
+    background: #000000;
+}
+
+.Colour-Picker {
+    position: absolute;
+    width: 52px;
+    height: 17px;
+    left: 200px;
+    top: 75px;
+
+    background: #c189e6;
+    border-radius: 4px;
+    border: none;
     padding: 0;
     cursor: pointer;
+
+    /* remove default style */
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* remove inner padding / border */
+.Colour-Picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+/* style the color box itself */
+.Colour-Picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+.Previouscolors-Shelf {
+    position: absolute;
+    width: 265px;
+    height: 52px;
+    left: 0px;
+    top: 98px;
+
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.Previous-1 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 13px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-2 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 48px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-3 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 83px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-4 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 118px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-5 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 153px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-6 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 188px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.Previous-7 {
+    position: absolute;
+    width: 31px;
+    height: 31px;
+    left: 223px;
+    top: calc(50% - 31px / 2 + 48.5px);
+
+    border-radius: 4px;
+}
+
+.colorize {
+    z-index: 1;
 }

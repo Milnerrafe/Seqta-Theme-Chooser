@@ -1,25 +1,18 @@
 const picker = document.getElementById("picker");
 const chips = document.getElementById("chips");
 
+// ------------------------
+// Utility functions
+// ------------------------
 function hexToRgb(hex) {
-  // Remove leading #
   hex = hex.replace(/^#/, "");
-
-  // Parse shorthand (#abc → #aabbcc)
-  if (hex.length === 3) {
+  if (hex.length === 3)
     hex = hex
       .split("")
       .map((c) => c + c)
       .join("");
-  }
-
-  // Extract and convert
   const bigint = parseInt(hex, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-
-  return `${r},${g},${b}`;
+  return `${(bigint >> 16) & 255},${(bigint >> 8) & 255},${bigint & 255}`;
 }
 
 function normalizeHex(hex) {
@@ -27,40 +20,46 @@ function normalizeHex(hex) {
   hex = hex.trim();
   if (hex[0] !== "#") hex = "#" + hex;
   if (/^#([0-9a-f]{6}|[0-9a-f]{3})$/i.test(hex)) {
-    if (hex.length === 4) {
-      const r = hex[1],
-        g = hex[2],
-        b = hex[3];
-      return ("#" + r + r + g + g + b + b).toLowerCase();
-    }
+    if (hex.length === 4)
+      hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
     return hex.toLowerCase();
   }
   return "";
 }
 
+// ------------------------
+// Chrome tab helpers
+// ------------------------
 async function getActiveTabOrigin() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   return { tabId: tab.id, origin: new URL(tab.url).origin };
 }
 
+// ------------------------
+// Apply color
+// ------------------------
 async function apply(hex) {
   const { tabId, origin } = await getActiveTabOrigin();
-  await setColorForOrigin(origin, hex);
-  await pushRecentColor(hex);
+  if (!hex) return;
 
-  // Fallback function to inject, computing derived colors & setting CSS vars
+  // Normalize and save color for this origin
+  const normalized = normalizeHex(hex);
+  await setColorForOrigin(origin, normalized);
+
+  // Apply color immediately to popup UI
+  document.body.style.background = normalized;
+
+  // ------------------------
+  // Define fallback injection (in case content script fails)
+  // ------------------------
   const fallbackApply = (rawHex) => {
     const normalizeHex = (hex) => {
       if (!hex) return null;
       hex = hex.trim();
       if (hex[0] !== "#") hex = "#" + hex;
       if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex)) return null;
-      if (hex.length === 4) {
-        const r = hex[1],
-          g = hex[2],
-          b = hex[3];
-        hex = "#" + r + r + g + g + b + b;
-      }
+      if (hex.length === 4)
+        hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
       return hex.toLowerCase();
     };
 
@@ -121,20 +120,16 @@ async function apply(hex) {
 
     const rgbToHex = (r, g, b) =>
       "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
-
     const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
     const hex = normalizeHex(rawHex);
     if (!hex) return;
 
-    // Parse base RGB
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
-
     const baseHSL = rgbToHsl(r, g, b);
 
-    // Ratios and deltas from original theme
     const levelRatios = [
       { sRatio: 0.4205, lRatio: 1.81 },
       { sRatio: 0.3136, lRatio: 2.216 },
@@ -146,8 +141,7 @@ async function apply(hex) {
       { sDelta: -38.245, lDelta: +40.785 },
     ];
 
-    const useRatio = baseHSL.s > 3; // use ratio only if saturation above threshold
-
+    const useRatio = baseHSL.s > 3;
     const derivedColors = levelRatios.map(({ sRatio, lRatio }, i) => {
       let s = useRatio ? baseHSL.s * sRatio : baseHSL.s + levelDeltas[i].sDelta;
       let l = useRatio ? baseHSL.l * lRatio : baseHSL.l + levelDeltas[i].lDelta;
@@ -167,81 +161,114 @@ async function apply(hex) {
 
     setProp("--navy", hex);
     setProp("--theme-sel-bg-parts", hexToRgb(hex));
-    setProp("--", hex);
     setProp("--nav-level-zero", hex);
     setProp("--nav-level-one", derivedColors[0]);
     setProp("--nav-level-two", derivedColors[1]);
     setProp("--nav-level-three", derivedColors[2]);
+
     const style = document.createElement("style");
     style.textContent = `
       .Avatar__Avatar___j4ZSp {
         width: 44px;
         height: 44px;
-        box-sizing: border-box;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-size: cover;
         background-position: center;
         border-radius: 100%;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         background-color: var(--navy);
         border: 2px solid var(--navy);
       }
     `;
-
     document.head.appendChild(style);
   };
 
   try {
-    // Send message to content script for full apply
-    await chrome.tabs.sendMessage(tabId, { type: "APPLY_NAVY", hex });
-  } catch (err) {
-    console.warn(
-      "Message to content script failed, falling back to injected script",
-      err,
-    );
+    await chrome.tabs.sendMessage(tabId, {
+      type: "APPLY_NAVY",
+      hex: normalized,
+    });
+  } catch {
     try {
       await chrome.scripting.executeScript({
         target: { tabId },
         func: fallbackApply,
-        args: [hex],
+        args: [normalized],
       });
-    } catch (execErr) {
-      console.error("Fallback executeScript failed:", execErr);
+    } catch (err) {
+      console.error("Fallback apply failed:", err);
     }
   }
+
+  // ------------------------
+  // Delegate 10-second timer to background worker
+  // ------------------------
+  chrome.runtime.sendMessage({
+    type: "START_COLOR_TIMER",
+    origin,
+    hex: normalized,
+  });
 
   await renderRecents();
 }
 
+// ------------------------
+// Recents UI
+// ------------------------
 async function renderRecents() {
   const recents = await getRecentColors();
   chips.innerHTML = "";
-  for (const c of recents) {
+  recents.forEach((c, i) => {
     const btn = document.createElement("button");
     btn.title = c;
+    btn.classList.add("Previous-" + (i + 1));
     btn.style.background = c;
     btn.addEventListener("click", () => {
       picker.value = c;
       apply(c);
     });
     chips.appendChild(btn);
-  }
+  });
 }
 
+document.getElementById("Dropper").addEventListener("click", () => {
+  const eyeDropper = new EyeDropper();
+
+  eyeDropper
+    .open()
+    .then((result) => {
+      apply(result.sRGBHex);
+      picker.value = result.sRGBHex;
+      renderRecents();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+// ------------------------
+// Init
+// ------------------------
 async function init() {
   try {
     const { origin } = await getActiveTabOrigin();
     const stored = await getColorForOrigin(origin);
-    if (stored) picker.value = stored;
+    picker.value = stored || "#3584e4";
+    document.body.style.background = picker.value;
   } catch {
     picker.value = "#3584e4";
+    document.body.style.background = "#3584e4";
   }
 
-  const onChange = async (e) => {
+  // Debounced change listener (prevents rapid spam)
+  let debounceTimer;
+  const onChange = (e) => {
+    clearTimeout(debounceTimer);
     const hex = normalizeHex(e.target.value);
-    if (hex) apply(hex);
+    if (!hex) return;
+    debounceTimer = setTimeout(() => apply(hex), 150);
   };
 
   picker.addEventListener("input", onChange);

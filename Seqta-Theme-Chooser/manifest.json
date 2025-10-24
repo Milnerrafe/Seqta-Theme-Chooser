@@ -1,11 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Seqta Theme Chooser",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Choose the Theme you want your Seqta UI to be",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Set Seqta UI Theme"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "icons": {
     "16": "icons/icon16.png",

@@ -1,26 +1,39 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Navy</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="popup.css" />
-    </head>
-    <body>
-        <div class="wrap">
-            <h3>Seqta Theme Changer</h3>
-            <label class="row">
-                <span>Pick color</span>
-                <input id="picker" type="color" />
-            </label>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+/>
 
-            <div class="recents">
-                <span class="muted">Recent</span>
-                <div id="chips" class="chips"></div>
-            </div>
-        </div>
+<link rel="stylesheet" href="popup.css" />
 
-        <script src="storage.js"></script>
-        <script src="popup.js"></script>
-    </body>
-</html>
+<body style="background: #c189e6">
+    <h1>Choose a Colour</h1>
+
+    <div class="Previouscolors-Shelf"></div>
+
+    <div class="Input-Chip"></div>
+
+    <input class="Colour-Picker" id="picker" type="color" />
+
+    <button class="EyeDropper" id="Dropper">
+        <svg
+            class="colorize"
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M0 7.48958V5.51042L3.72917 1.78125L3.125 1.19792L3.72917 0.614583L4.52083 1.40625L5.8125 0.114583C5.84722 0.0798611 5.89063 0.0520833 5.94271 0.03125C5.99479 0.0104167 6.04861 0 6.10417 0C6.15972 0 6.21181 0.0104167 6.26042 0.03125C6.30903 0.0520833 6.35417 0.0798611 6.39583 0.114583L7.375 1.09375C7.40972 1.13542 7.4375 1.18056 7.45833 1.22917C7.47917 1.27778 7.48958 1.32986 7.48958 1.38542C7.48958 1.44097 7.47917 1.49479 7.45833 1.54688C7.4375 1.59896 7.40972 1.64236 7.375 1.67708L6.09375 2.95833L6.88542 3.77083L6.29167 4.36458L5.70833 3.76042L1.97917 7.48958H0ZM0.833333 6.65625H1.64583L5.10417 3.17708L4.3125 2.38542L0.833333 5.84375V6.65625ZM5.48958 2.38542L6.48958 1.38542L6.10417 1L5.10417 2L5.48958 2.38542Z"
+                fill="white"
+            />
+        </svg>
+    </button>
+
+    <div id="chips" class="chips"></div>
+
+    <script src="storage.js"></script>
+    <script src="popup.js"></script>
+</body>
