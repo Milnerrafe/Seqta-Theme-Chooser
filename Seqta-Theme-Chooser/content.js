@@ -1,3 +1,48 @@
+(() => {
+  function clearbackgrounds() {
+    const allElements = document.querySelectorAll("*");
+    console.log(allElements);
+
+    allElements.forEach((element) => {
+      element.style.removeProperty("background-color");
+    });
+  }
+
+  function waitForElement(selector, callback) {
+    const element = document.querySelector(selector);
+    if (element) {
+      callback(element);
+      return;
+    }
+
+    const observer = new MutationObserver((mutations, obs) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        callback(element);
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  clearbackgrounds();
+
+  waitForElement(".item", (menu) => {
+    clearbackgrounds();
+  });
+
+  waitForElement("#menu", (menu) => {
+    clearbackgrounds();
+  });
+
+  waitForElement("#title", (menu) => {
+    clearbackgrounds();
+  });
+})();
+
 function hexToRgb(hex) {
   // Remove leading #
   hex = hex.replace(/^#/, "");
@@ -97,7 +142,11 @@ async function applyNavyColor(hex) {
 
   const base = hexToHSL(hex);
 
-  // Apply base navy
+  elements.forEach((el) => {
+    el.style.removeProperty("background-color");
+    console.log("it worked!");
+  });
+
   document.documentElement.style.setProperty("--navy", hex);
   document.documentElement.style.setProperty("--nav-level-zero", hex);
 
@@ -107,10 +156,7 @@ async function applyNavyColor(hex) {
     let s = Math.max(0, Math.min(100, base.s + delta.s));
     let l = Math.max(0, Math.min(100, base.l + delta.l));
     let derivedHex = hslToHex(h, s, l);
-    document.documentElement.style.setProperty(
-      `--nav-level-${i + 1}`,
-      derivedHex,
-    );
+    document.documentElement.style.setProperty(`--nav-level-${i + 1}`, derivedHex);
   });
 }
 
@@ -208,16 +254,8 @@ async function applyNavyColor(hex) {
 
   // Apply base navy
   document.documentElement.style.setProperty("--navy", hex, "important");
-  document.documentElement.style.setProperty(
-    "--nav-level-zero",
-    hex,
-    "important",
-  );
-  document.documentElement.style.setProperty(
-    "--theme-sel-bg-parts",
-    hexToRgb(hex),
-    "important",
-  );
+  document.documentElement.style.setProperty("--nav-level-zero", hex, "important");
+  document.documentElement.style.setProperty("--theme-sel-bg-parts", hexToRgb(hex), "important");
 
   const style = document.createElement("style");
   style.textContent = `
@@ -245,11 +283,7 @@ async function applyNavyColor(hex) {
     let s = Math.max(0, Math.min(100, base.s + delta.s));
     let l = Math.max(0, Math.min(100, base.l + delta.l));
     let derivedHex = hslToHex(h, s, l);
-    document.documentElement.style.setProperty(
-      `--nav-level-${i + 1}`,
-      derivedHex,
-      "important",
-    );
+    document.documentElement.style.setProperty(`--nav-level-${i + 1}`, derivedHex, "important");
   });
 }
 
