@@ -1,7 +1,6 @@
 (() => {
   function clearbackgrounds() {
     const allElements = document.querySelectorAll("*");
-    console.log(allElements);
 
     allElements.forEach((element) => {
       element.style.removeProperty("background-color");
@@ -11,14 +10,14 @@
   function waitForElement(selector, callback) {
     const element = document.querySelector(selector);
     if (element) {
-      callback(element);
+      callback();
       return;
     }
 
     const observer = new MutationObserver((mutations, obs) => {
       const element = document.querySelector(selector);
       if (element) {
-        callback(element);
+        callback();
       }
     });
 
@@ -30,15 +29,15 @@
 
   clearbackgrounds();
 
-  waitForElement(".item", (menu) => {
+  waitForElement(".item", () => {
     clearbackgrounds();
   });
 
-  waitForElement("#menu", (menu) => {
+  waitForElement("#menu", () => {
     clearbackgrounds();
   });
 
-  waitForElement("#title", (menu) => {
+  waitForElement("#title", () => {
     clearbackgrounds();
   });
 })();
