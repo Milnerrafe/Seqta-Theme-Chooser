@@ -20,8 +20,7 @@ function normalizeHex(hex) {
   hex = hex.trim();
   if (hex[0] !== "#") hex = "#" + hex;
   if (/^#([0-9a-f]{6}|[0-9a-f]{3})$/i.test(hex)) {
-    if (hex.length === 4)
-      hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    if (hex.length === 4) hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
     return hex.toLowerCase();
   }
   return "";
@@ -58,8 +57,7 @@ async function apply(hex) {
       hex = hex.trim();
       if (hex[0] !== "#") hex = "#" + hex;
       if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex)) return null;
-      if (hex.length === 4)
-        hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+      if (hex.length === 4) hex = "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
       return hex.toLowerCase();
     };
 
@@ -118,8 +116,7 @@ async function apply(hex) {
       };
     };
 
-    const rgbToHex = (r, g, b) =>
-      "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
+    const rgbToHex = (r, g, b) => "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
     const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
     const hex = normalizeHex(rawHex);
@@ -165,6 +162,7 @@ async function apply(hex) {
     setProp("--nav-level-one", derivedColors[0]);
     setProp("--nav-level-two", derivedColors[1]);
     setProp("--nav-level-three", derivedColors[2]);
+    setProp("--sub-menu-bg", "var(--navy)");
 
     const style = document.createElement("style");
     style.textContent = `

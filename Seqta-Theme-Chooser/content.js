@@ -2,8 +2,29 @@
   function clearbackgrounds() {
     const allElements = document.querySelectorAll("*");
 
+    document.documentElement.style.removeProperty("--sub-menu-bg");
+    document.documentElement.style.setProperty("--sub-menu-bg", "var(--navy)", "important");
+
+    keepinlinebackground = ["class", "quickbar", "entry", "course", "donotremovebackground", "uiThemeBrowser"];
+
     allElements.forEach((element) => {
-      element.style.removeProperty("background-color");
+      const classnamearray = String(element.className).split(" ");
+      let notfound = true;
+
+      classnamearray.forEach((classname) => {
+        if (keepinlinebackground.includes(classname)) {
+          notfound = false;
+          const Descendants = element.querySelectorAll("*");
+
+          Descendants.forEach((child) => {
+            child.classList.add("donotremovebackground");
+          });
+        }
+      });
+
+      if (notfound) {
+        element.style.removeProperty("background-color");
+      }
     });
   }
 
@@ -148,6 +169,8 @@ async function applyNavyColor(hex) {
 
   document.documentElement.style.setProperty("--navy", hex);
   document.documentElement.style.setProperty("--nav-level-zero", hex);
+  document.documentElement.style.removeProperty("--sub-menu-bg");
+  document.documentElement.style.setProperty("--sub-menu-bg", "var(--navy)", "important");
 
   // Compute derived levels
   deltas.forEach((delta, i) => {
@@ -255,6 +278,7 @@ async function applyNavyColor(hex) {
   document.documentElement.style.setProperty("--navy", hex, "important");
   document.documentElement.style.setProperty("--nav-level-zero", hex, "important");
   document.documentElement.style.setProperty("--theme-sel-bg-parts", hexToRgb(hex), "important");
+  document.documentElement.style.setProperty("--sub-menu-bg", "var(--navy)", "important");
 
   const style = document.createElement("style");
   style.textContent = `
