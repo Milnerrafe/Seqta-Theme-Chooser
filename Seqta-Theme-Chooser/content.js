@@ -2,10 +2,57 @@
   function clearbackgrounds() {
     const allElements = document.querySelectorAll("*");
 
+    allElements.forEach((el) => {
+      if (
+        el.textContent
+          .includes(`*:not([class^="Canvas__canvas___"]):not([class^="Canvas__canvas___"] *):not([class^="ThemeCard__"]):not([class^="ThemeCard__"] *):not([class^="ThemePreview__"]):not([class^="ThemePreview__"] *):not([class^="academicReportsWrapper"]):not([class^="academicReportsWrapper"] *):not(textarea) {
+							font-family: 'Inter', sans-serif !important;
+						}
+
+						* {
+							--theme-sel-bg-parts: 43, 53, 71 !important;
+							--navy: #2b3547 !important;
+						}
+
+						#menu li:hover {
+							background: #E3E5E9;
+						}`)
+      ) {
+        if (el.tagName == "STYLE") {
+          el.remove();
+        }
+      }
+    });
+
     document.documentElement.style.removeProperty("--sub-menu-bg");
     document.documentElement.style.setProperty("--sub-menu-bg", "var(--navy)", "important");
 
     keepinlinebackground = ["class", "quickbar", "entry", "course", "donotremovebackground", "uiThemeBrowser"];
+
+    const itemlist = document.querySelectorAll(".item");
+
+    itemlist.forEach((el) => {
+      function updateColor() {
+        if (
+          !el.classList.contains("active") &&
+          !el.classList.contains("staff") &&
+          !el.classList.contains("student") &&
+          !el.classList.contains("contact")
+        ) {
+          el.style.color = "white";
+        } else {
+          el.style.color = "";
+        }
+      }
+
+      updateColor();
+
+      const observer = new MutationObserver(() => {
+        updateColor();
+      });
+
+      observer.observe(el, { attributes: true, attributeFilter: ["class"] });
+    });
 
     allElements.forEach((element) => {
       const classnamearray = String(element.className).split(" ");
