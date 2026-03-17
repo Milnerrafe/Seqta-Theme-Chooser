@@ -4,19 +4,9 @@
 
     allElements.forEach((el) => {
       if (
-        el.textContent
-          .includes(`*:not([class^="Canvas__canvas___"]):not([class^="Canvas__canvas___"] *):not([class^="ThemeCard__"]):not([class^="ThemeCard__"] *):not([class^="ThemePreview__"]):not([class^="ThemePreview__"] *):not([class^="academicReportsWrapper"]):not([class^="academicReportsWrapper"] *):not(textarea) {
-							font-family: 'Inter', sans-serif !important;
-						}
-
-						* {
-							--theme-sel-bg-parts: 43, 53, 71 !important;
-							--navy: #2b3547 !important;
-						}
-
-						#menu li:hover {
-							background: #E3E5E9;
-						}`)
+        el.textContent.includes(
+          `\n\t\t\t\t\t\t*:not(.ace_editor):not(.ace_editor *):not([class^="Canvas__canvas___"]):not([class^="Canvas__canvas___"] *):not([class^="ThemeCard__"]):not([class^="ThemeCard__"] *):not([class^="ThemePreview__"]):not([class^="ThemePreview__"] *):not([class^="academicReportsWrapper"]):not([class^="academicReportsWrapper"] *):not(textarea) {\n\t\t\t\t\t\t\tfont-family: 'Inter', sans-serif !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t* {\n\t\t\t\t\t\t\t--theme-sel-bg-parts: 43, 53, 71 !important;\n\t\t\t\t\t\t\t--navy: #2b3547 !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t#menu li:hover {\n\t\t\t\t\t\t\tbackground: #E3E5E9;\n\t\t\t\t\t\t}\n\t\t\t\t\t`,
+        )
       ) {
         if (el.tagName == "STYLE") {
           el.remove();
@@ -27,7 +17,15 @@
     document.documentElement.style.removeProperty("--sub-menu-bg");
     document.documentElement.style.setProperty("--sub-menu-bg", "var(--navy)", "important");
 
-    keepinlinebackground = ["class", "quickbar", "entry", "course", "donotremovebackground", "uiThemeBrowser"];
+    keepinlinebackground = [
+      "class",
+      "quickbar",
+      "entry",
+      "course",
+      "donotremovebackground",
+      "uiThemeBrowser",
+      "uiFile",
+    ];
 
     const itemlist = document.querySelectorAll(".item");
 
