@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Seqta Theme Chooser",
-  "version": "2.6.0",
+  "version": "2.9.0",
   "description": "Choose the Theme you want your Seqta UI to be",
   "action": {
     "default_popup": "popup.html",
@@ -16,6 +16,12 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["/newseqtalogo.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "permissions": ["scripting", "storage", "activeTab"],
   "host_permissions": ["https://*.edu.au/*"],
   "content_scripts": [

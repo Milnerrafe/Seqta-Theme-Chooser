@@ -1,15 +1,24 @@
 (() => {
   function clearbackgrounds() {
+    const svgdatauri = `https://a.dropoverapp.com/cloud/download/9c99fecd-41e4-473f-a413-7b9300c0b01d/62b268c3-78a7-4b59-a043-7745a69057f3`;
     const allElements = document.querySelectorAll("*");
+
+    const delelemntsforlogo = document.getElementById("logo-style");
+    if (delelemntsforlogo) {
+      delelemntsforlogo.remove();
+    }
 
     allElements.forEach((el) => {
       if (
         el.textContent.includes(
-          `\n\t\t\t\t\t\t*:not(.ace_editor):not(.ace_editor *):not([class^="Canvas__canvas___"]):not([class^="Canvas__canvas___"] *):not([class^="ThemeCard__"]):not([class^="ThemeCard__"] *):not([class^="ThemePreview__"]):not([class^="ThemePreview__"] *):not([class^="academicReportsWrapper"]):not([class^="academicReportsWrapper"] *):not(textarea) {\n\t\t\t\t\t\t\tfont-family: 'Inter', sans-serif !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t* {\n\t\t\t\t\t\t\t--theme-sel-bg-parts: 43, 53, 71 !important;\n\t\t\t\t\t\t\t--navy: #2b3547 !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t#menu li:hover {\n\t\t\t\t\t\t\tbackground: #E3E5E9;\n\t\t\t\t\t\t}\n\t\t\t\t\t`,
+          `\n\t\t\t\t\t\t*:not(.ace_editor):not(.ace_editor *):not([class^="Canvas__canvas___"]):not([class^="Canvas__canvas___"] *):not([class^="ThemeCard__"]):not([class^="ThemeCard__"] *):not([class^="ThemePreview__"]):not([class^="ThemePreview__"] *):not([class^="academicReportsWrapper"]):not([class^="academicReportsWrapper"] *):not(textarea) {\n\t\t\t\t\t\t\tfont-family: 'Inter', sans-serif !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t* {\n\t\t\t\t\t\t\t--navy: #2b3547 !important;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\thtml {\n\t\t\t\t\t\t\t--theme-sel-bg-parts: 43, 53, 71;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t#menu li:hover {\n\t\t\t\t\t\t\tbackground: #E3E5E9;\n\t\t\t\t\t\t}\n\t\t\t\t\t`,
         )
       ) {
         if (el.tagName == "STYLE") {
-          el.remove();
+          el.textContent = `
+              .student #menu > ul::before { background-image: url('${chrome.runtime.getURL("/newseqtalogo.svg")}') !important; }
+              .student #menu > ul.logo-link::before { cursor: pointer; }
+            `;
         }
       }
     });
