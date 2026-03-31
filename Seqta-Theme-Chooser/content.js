@@ -18,6 +18,8 @@
           el.textContent = `
               .student #menu > ul::before { background-image: url('${chrome.runtime.getURL("/newseqtalogo.svg")}') !important; }
               .student #menu > ul.logo-link::before { cursor: pointer; }
+              #menu .sub { color: white; }
+              .nav { color: white; }
             `;
         }
       }
